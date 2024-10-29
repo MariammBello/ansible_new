@@ -1,0 +1,14 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+
+    altschool_server:
+      ansible_host: ec2-51-20-191-169.eu-north-1.compute.amazonaws.com
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: /home/mariam/Altschool-keypair-1.pem
+
+    lxc_server:
+      ansible_host: 10.87.5.186
+      ansible_user: root
+      ansible_ssh_private_key_file: /home/mariam/Altschool-keypair-1.pem

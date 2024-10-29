@@ -1,0 +1,50 @@
+--- 
+- name: Setup a server with Apache & host index.php file
+  hosts: all
+  become: yes
+
+  tasks: 
+    - name: "Install Apache"
+      apt: 
+        name: apache2
+        state: present
+        update_cache: yes 
+
+    - name: "Install php"
+      apt:
+        name: php
+        state: present
+        update_cache: yes
+
+    - name: Set the server timezone to Africa/Lagos
+      command: timedatectl set-timezone Africa/Lagos
+
+    - name: Create index.php file with date display
+      copy:
+        dest: /var/www/html/index.php  # File location for Apache web server
+        content: |
+          <?php
+          date_default_timezone_set("Africa/Lagos");
+          echo date("F d, Y h:i:s A e", time());
+          ?>
+
+
+    - name: Ensure Apache is started and enabled
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Set index.php as the default directory index
+      replace:
+        path: /etc/apache2/mods-enabled/dir.conf
+        regexp: '^\s*DirectoryIndex .*'
+        replace: 'DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm'
+      notify: Restart Apache
+
+  handlers:
+  - name: Restart Apache
+    service:
+      name: apache2
+      state: restarted
+
