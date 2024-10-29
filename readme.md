@@ -172,6 +172,8 @@ The **`tasks:`** section lists the different steps we want to perform on the hos
    - **`state: started`**: Make sure the service is running.
    - **`enabled: yes`**: Make sure the service starts on boot.
 
+   ![Index.php output](png/systemstatus.jpg)
+
 6. **Set `index.php` as the Default Directory Index**:
    - **`replace:`**: The **replace** module replaces the existing `DirectoryIndex` configuration line to set `index.php` as the first page to load.
    - **`path: /etc/apache2/mods-enabled/dir.conf`**: The file we want to modify.
@@ -211,9 +213,8 @@ This command tells Ansible to use the inventory file (`inventory.yaml`) and run 
 
 After completing the configuration, I was able to visit the public IP of my EC2 instance and see the following output:
 
-```
-October 28, 2024 10:28:55 PM Africa/Lagos
-```
+![Index.php output](png/indexphp.jpg)
+
 
 I had to add `/index.php` to the URL initially because Apache’s default configuration prioritized `index.html` over `index.php`. By modifying the **Apache directory index settings**, I resolved this and ensured that `index.php` loaded first.
 
